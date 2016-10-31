@@ -1,0 +1,40 @@
+<div class="input-field col s12" style="height:75px;" *ngIf="fieldType==='input'">
+    <i [ngClass]="!isValid&&isDisplayError?'icon-red':''" class="material-icons prefix">{{iconName}}</i>
+    <!--[ngClass]="isValid||!isAlreadyChange||showRequiredError?'':'invalid margin-input'"-->
+
+    <input [attr.id]="id"
+           style="margin:0 0 5px 0"
+           type="tel"
+           class="validate"
+           [ngClass]="showRequiredError||!isValid||isAlreadyChange?'invalid margin-input':''"
+           style="font-size: 1.3rem;"
+           [(ngModel)]="inputValue"
+           (blur)="blur()"
+           (focus)="focus()"
+           #val
+           [value]="valueForSet"
+           (input)="changeValue(val.value)">
+    <!-- showRequiredError:{{showRequiredError}}<br>
+     isValid:{{!isValid}}<br>
+     isAlreadyChange:{{isAlreadyChange}}-->
+    <!--data-position="bottom" data-delay="5" data-tooltip="I am tooltip"-->
+    <label [attr.data-error]="mainError" [attr.data-success]="dataSuccessMessage" for="id">{{title}}</label>
+    <span *ngIf="!isValid&&isDisplayError||showRequiredError" style="
+    width:100%;
+    color:red;left:20px;
+    margin-left: 40px;
+    font-size: 12px;
+">{{mainError&&!showRequiredError?mainError:'required!'}}
+    </span>
+</div>
+
+
+<form class="col s12" *ngIf="fieldType==='textarea'">
+    <div class="row">
+        <div class="input-field col s12">
+                <textarea id="textarea1"
+                          class="materialize-textarea"></textarea>
+            <label for="textarea1">Textarea</label>
+        </div>
+    </div>
+</form>

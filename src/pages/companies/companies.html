@@ -1,0 +1,225 @@
+<div class="col s8 offset-s2 margin-top margin-bottom">
+    <div class="row">
+        <div class="col s3 margin-top">
+            <!--<a class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></a>-->
+            <a class="waves-effect waves-light btn" (click)="openModal(1)"><i class="material-icons left">add</i>add</a>
+        </div>
+
+        <div class="col s6">
+            <material-input
+                    [iconName]="'search'"
+                    [title]="'search by company'"
+                    (updateInputValue)="updateInput($event,1000)"
+            ></material-input>
+        </div>
+
+        <div class="col s3 margin-top">
+            <a class="waves-effect waves-light btn" (click)="showMap()"><i class="material-icons left">location_on</i>map</a>
+        </div>
+    </div>
+
+
+    <table class="bordered striped centered highlight">
+        <thead>
+        <tr>
+            <th data-field="id">Name</th>
+            <th data-field="name">Address</th>
+            <th data-field="price">Phone Number</th>
+            <th data-field="price">Web Site</th>
+            <th data-field="price">Description</th>
+            <th data-field="price">Lat</th>
+            <th data-field="price">Lng</th>
+            <th data-field="price">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let company of companies|companiesPipe:companyFilter let i = index">
+            <td>{{company.name}}</td>
+            <td>{{company.address}}</td>
+            <td>{{company.phoneNumber}}</td>
+            <td>{{company.webSite}}</td>
+            <td>{{company.description}}</td>
+            <td>{{company.lat}}</td>
+            <td>{{company.lng}}</td>
+            <td>
+                <a class="btn-small btn-floating" (click)="openModal(2)"><i class="small material-icons">delete</i></a>
+                <a class="btn-floating" (click)="openModal(1)"><i class="small material-icons">mode_edit</i></a>
+                <a *ngIf="company.selectedUsers" class="btn-floating" (click)="openModalUsers(i)"><i
+                        class="small material-icons">supervisor_account</i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!--<a class="modal-trigger waves-effect waves-light btn" (click)="edit(0)">Modal</a>-->
+<!-- Modal Structure -->
+<div id="modal-to-delete" class="modal modal-fixed-footer" style="width: 15%; height: 200px;">
+    <div class="modal-content">
+        <p>Do you want to delete the company?</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="confirmDelete()">Yes</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" style="float:left"
+           (click)="closeMoadal()">No</a>
+    </div>
+</div>
+
+
+<!--map2-->
+
+<div id="modal-gmap2" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <div class="col s12">
+            <gmap-component
+                    *ngIf="isShowMap"
+                    [compamies]="companies"
+            ></gmap-component>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="confirmDelete()">Yes</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" style="float:left"
+           (click)="closeMoadal()">No</a>
+    </div>
+</div>
+
+
+<!--modal footer-->
+<!--<a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>-->
+<!-- Modal Structure -->
+<div id="modal-gmap" class="modal bottom-sheet modal-bottom-max-height">
+    <div class="modal-content">
+
+        <h4 class="col s4">Modal Header</h4>
+        <a class="waves-effect waves-light btn col s2 offset-s6" (click)="showMap()"><i class="material-icons right">location_off</i>close</a>
+        <div class="col s12">
+            <gmap-component
+                    *ngIf="isShowMap"
+                    [compamies]="companies"
+            ></gmap-component>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+    </div>
+</div>
+
+
+<div id="modal-add-edit" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s6">
+                <material-input
+                        [iconName]="'person_pin'"
+                        [title]="'Name'"
+                        [min]="2"
+                        [max]="30"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,0)"
+                ></material-input>
+            </div>
+            <div class="col s6">
+                <material-input
+                        [iconName]="'my_location'"
+                        [title]="'Address'"
+                        [max]="40"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,1)"
+                ></material-input>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s6">
+                <material-input
+                        [iconName]="'phone'"
+                        [title]="'Phone number'"
+                        [min]="7"
+                        [max]="17"
+
+                        [isInitMask]="true"
+                        [maskType]="'phone'"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,2)"
+                ></material-input>
+            </div>
+            <div class="col s6">
+
+                <material-input
+                        [iconName]="'http'"
+                        [title]="'Web site'"
+                        [maskType]="'site'"
+                        [showRequiredError]="showReuqiredError"
+                        [isInitMask]="true"
+                        (updateInputValue)="updateInput($event,3)"
+                ></material-input>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col s6">
+                <material-input
+                        [iconName]="'receipt'"
+                        [title]="'Description'"
+                        [showRequiredError]="showReuqiredError"
+                        [max]="400"
+                        (updateInputValue)="updateInput($event,4)"
+                ></material-input>
+            </div>
+
+            <div class="col s6">
+                <div class="input-field col s12">
+                    <select [(ngModel)]="selectedUser"
+                            class="browser-default"
+                            #value
+                            (change)="selectUser(value)"
+                    >
+                        <option value="0" disabled selected>Assign user</option>
+                        <option
+                                *ngFor="let user of users; let i=index"
+                                value={{i}}>
+                            {{user.firstName+' '+user.lastName}}
+                        </option>
+                    </select>
+                    <!--<label>Materialize Select</label>-->
+                </div>
+
+                <div>
+                    <div *ngFor="let user of company.selectedUserss">
+                        {{user.firstName+' '+ user.lastName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="col s6 waves-effect waves-green btn-flat"
+                (click)="save()"
+        >Save
+        </button>
+        <button class="col s6 modal-action modal-close waves-effect waves-green btn-flat"
+                (click)="closeMoadal()">Cancel
+        </button>
+    </div>
+</div>
+
+
+<div *ngIf="isShowUserList" id="modal-users" class="modal modal-fixed-footer" style="width: 15%; height: 200px;">
+    <div class="modal-content">
+        <p *ngFor="let item of compamies[idToShowUsers].selectedUsers">{{item.firstName+' '+ item.lastName}}</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="confirmDelete()">Yes</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" style="float:left"
+           (click)="closeMoadal()">No</a>
+    </div>
+</div>
+
+
+
+

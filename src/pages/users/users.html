@@ -1,0 +1,157 @@
+<div class="col s8 offset-s2 margin-top margin-bottom">
+    <div class="row">
+        <div class="col s3 margin-top">
+            <!--<a class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></a>-->
+            <a class="waves-effect waves-light btn" (click)="openModal(1)"><i class="material-icons left">add</i>add</a>
+        </div>
+
+        <div class="col s6">
+            <material-input
+                    [iconName]="'search'"
+                    [title]="'search by user'"
+                    (updateInputValue)="updateInput($event,1000)"
+            ></material-input>
+        </div>
+
+        <div class="col s3 margin-top">
+            <a class="waves-effect waves-light btn" (click)="showMap()"><i class="material-icons left">location_on</i>map</a>
+        </div>
+    </div>
+
+
+    <table class="bordered striped centered highlight">
+        <thead>
+        <tr>
+            <th data-field="id">First name</th>
+            <th data-field="name">Last name</th>
+            <th data-field="price">Email</th>
+            <th data-field="price">Gender</th>
+            <th data-field="price">Role</th>
+            <th data-field="price">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let user of users|userPipe:userFilter let i = index">
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.gender}}</td>
+            <td>{{user.role}}</td>
+            <td>
+                <a class="btn-small btn-floating" (click)="openModal(2)"><i class="small material-icons">delete</i></a>
+                <a class="btn-floating" (click)="openModal(1)"><i class="small material-icons">mode_edit</i></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!--<a class="modal-trigger waves-effect waves-light btn" (click)="edit(0)">Modal</a>-->
+<!-- Modal Structure -->
+<div id="modal-to-delete" class="modal modal-fixed-footer" style="width: 15%; height: 200px;">
+    <div class="modal-content">
+        <p>Do you want to delete this user?</p>
+    </div>
+    <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" (click)="confirmDelete()">Yes</a>
+        <a class="modal-action modal-close waves-effect waves-green btn-flat" style="float:left"
+           (click)="closeMoadal()">No</a>
+    </div>
+</div>
+
+
+<div id="modal-add-edit" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s6">
+                <material-input
+                        [iconName]="'person_pin'"
+                        [title]="'First name'"
+                        [min]="2"
+                        [max]="30"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,0)"
+                ></material-input>
+            </div>
+            <div class="col s6">
+                <material-input
+                        [iconName]="'person_pin'"
+                        [title]="'Last name'"
+                        [max]="40"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,1)"
+                ></material-input>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s6">
+                <material-input
+                        [iconName]="'email'"
+                        [title]="'email'"
+                        [min]="7"
+                        [max]="17"
+                        [isInitMask]="true"
+                        [maskType]="'phone'"
+                        [showRequiredError]="showReuqiredError"
+                        (updateInputValue)="updateInput($event,2)"
+                ></material-input>
+            </div>
+            <div class="col s6">
+                <div class="input-field col s12">
+                    <select [(ngModel)]="selectedRole"
+                            class="browser-default"
+                            #value
+                            (change)="selectRole(value)">
+                        <option value="0" disabled selected>User role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Root">Root</option>
+                        <option value="User">User</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s6">
+                <form class="col s12" action="#">
+                    <p class="col s4">
+                        <input type="checkbox"
+                               id="test5"
+                               (change)="setGender('female')"
+                               [(ngModel)]="isFemale"
+                               [ngModelOptions]="{standalone: true}"
+                        />
+                        <label for="test5">Female</label>
+                    </p>
+                    <p class="col s4">
+                        <input type="checkbox"
+                               id="test6"
+                               (change)="setGender('male')"
+                               [(ngModel)]="isMale"
+                               [ngModelOptions]="{standalone: true}"
+
+
+                        />
+                        <label for="test6">Male</label>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="col s6 waves-effect waves-green btn-flat"
+                (click)="save()"
+        >Save
+        </button>
+        <button class="col s6 modal-action modal-close waves-effect waves-green btn-flat"
+                (click)="closeMoadal()">Cancel
+        </button>
+    </div>
+
+</div>
+
+
+

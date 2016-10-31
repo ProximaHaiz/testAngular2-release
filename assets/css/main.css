@@ -1,0 +1,52 @@
+/*body{
+    !*font-size: 1.3rem;*!
+    !*height: 100%;*!
+    !*background: #e5e6e6;*!
+    !*background-size: 100% 100%;*!
+    !*color: #313534;*!
+}*/
+.tabs .indicator{
+    background-color: #fbf5f2!important;
+}
+td,th{
+    padding: 10px 5px!important;
+}
+
+.margin-top {
+    margin-top: 30px;
+}
+
+.margin-bottom{
+    margin-bottom: 30px;
+}
+
+.modal-bottom-max-height {
+    max-height: 70%!important;
+}
+
+.my-active {
+    /*top: 0px!important;*/
+    /*font-size: 12px !important;*/
+    font-size: 0.8rem;
+    transform: translateY(-140%);
+}
+
+.icon-red {
+    color: red;
+}
+
+/*
+.base{
+    overflow: hidden;
+    padding-left: 64px;
+    width: 100%;
+    min-height: 100%;
+}*/
+
+.margin-input {
+    margin: 0 0 5px 40px !important;
+    border-bottom: 1px solid red !important;
+    box-shadow: 0 1px 0 0 red !important;
+}
+
+
